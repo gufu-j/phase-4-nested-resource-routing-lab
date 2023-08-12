@@ -16,12 +16,28 @@ class ItemsController < ApplicationController
     render json: items, include: :user
   end
 
+  def show
+    item = Item.find(params[:id])
+    render json: item
+  end
+
+  def create
+    item = Item.create(review_params)
+    render json: :item, status: :created
+  end
+
+  
 
   private
 
   def set_alarm
       render json: {error: 404}, status: :not_found
   end
+
+  def review_params
+    params.permit(:name, :description, :price)
+  end
+
 
 
 
