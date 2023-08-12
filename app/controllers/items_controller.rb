@@ -21,9 +21,16 @@ class ItemsController < ApplicationController
     render json: item
   end
 
+  # def create
+  #   user = User.find(params[:user_id])
+  #   item = user.items.create(item_params)
+  #   render json: :item, status: :created
+  # end
+
   def create
-    item = Item.create(review_params)
-    render json: :item, status: :created
+    user = find_user
+    item = user.items.create(item_params)
+    render json: item, status: :created
   end
 
   
@@ -34,8 +41,12 @@ class ItemsController < ApplicationController
       render json: {error: 404}, status: :not_found
   end
 
-  def review_params
+  def item_params
     params.permit(:name, :description, :price)
+  end
+  
+  def find_user
+    User.find(params[:user_id])
   end
 
 
